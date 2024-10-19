@@ -1,0 +1,83 @@
+{% include 'customer_menu.html' %}
+
+
+<div style="margin: 20px auto; padding:30px; border-radius:12px; border: 1px solid black; box-shadow: 0px 0px 10px;">
+    <form action="view_slots">
+        <div style="display: flex;">
+            <div>
+                <input type="hidden" name="parking_slot_id" value="{{parking_slot['_id']}}">
+                <div style="font-weight:bold; font-size:20px;">
+                    Parking Area
+                </div>
+                <div>
+                    {{parking_slot['parking_area_name']}}
+                </div>
+            </div>
+            <div style="margin-left:60px;">
+                <div style="font-weight:bold; font-size:20px; ">
+                    Parking Location
+                </div>
+                <div>
+                    {{location['location_name']}}
+                </div>
+            </div>
+            <div style="margin-left:60px;">
+                <div style="font-weight:bold; font-size:20px; ">
+                    Number of Slots
+                </div>
+                <div>
+                    {{parking_slot['number_of_slots']}}
+                </div>
+            </div>
+            <div style="margin-left:60px;">
+                <div style="font-weight:bold; font-size:20px; ">
+                    From date
+                </div>
+                <div>
+                    <input type="datetime-local" name="from_date_time" value="{{from_date_time}}" onchange="this.form.submit()" placeholder="Choose To Date" style="border-radius:15px;">
+                </div>
+            </div>
+            <div style="margin-left:60px;">
+                <div style="font-weight:bold; font-size:20px; ">
+                    To date
+                </div>
+                <div>
+                    <input type="datetime-local" name="to_date_time" value="{{to_date_time}}" onchange="this.form.submit()" placeholder="Choose To Date" style="border-radius:15px;">
+                </div>
+            </div>
+            <div style="margin-left:60px;">
+                <div style="font-weight:bold; font-size:20px;">
+                    Status
+                </div>
+                <div>
+                    {{parking_slot['status']}}
+                </div>
+            </div>
+            <div style="margin-left:60px;">
+                <div style="font-weight:bold; font-size:20px;">
+                    Address
+                </div>
+                <div>
+                    {{location['address']}}
+                </div>
+            </div>
+        </div>
+    </form>
+    {% set booked_slots_count = get_booked_slots_count(parking_slot['_id'], from_date_time, to_date_time)%}
+
+    <form action="book_slots" method="get">
+        <input type="hidden" name="parking_slot_id" value="{{parking_slot['_id']}}">
+        <input type="hidden" name="from_date_time" value="{{from_date_time}}">
+        <input type="hidden" name="to_date_time" value="{{to_date_time}}">
+        <input type="hidden" name="number_of_slots" value="{{parking_slot['number_of_slots']}}">
+        <div class="row mt-10 space-around">
+
+        </div>
+        <div class="w-20 mt-20" style=" margin-top:25px; margin-left:600px; border-radius:15px; box-shadow: 0px 0px 10px; ">
+            <div style="padding:30px; margin-left:40px;">{{ int(parking_slot['number_of_slots'])-booked_slots_count }} Slots are Available</div>
+            <div style="padding-bottom:10px;">
+                <input type="submit" value="Book Now" style="margin-left:60px; font-size:20px; padding: 5px 45px; text-decoration:none; border-radius:15px;">
+            </div>
+        </div>
+    </form>
+</div>

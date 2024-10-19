@@ -1,0 +1,33 @@
+{% include 'admin_menu.html' %}
+<form action="add_location_action" class="card2 mt-20 ml-100 mr-100 p-20">
+    <div class="row  space-center gap ">
+         <div class="w-25 middle">
+            <label class="">Enter Location Name</label>
+            <input type="text" placeholder="Enter Location name" class="input" name="location_name" required>
+         </div>
+         <div class="w-25 middle">
+            <label>Address</label>
+             <textarea name="address" placeholder="Enter Address" class="input" required></textarea>
+        </div>
+        <div class="w-25 middle">
+            <input type="submit" class="btn w-100" value="Add">
+        </div>
+    </div>
+</form>
+<div class="row mt-20">
+    {% for parking_location in parking_locations %}
+        <div class="w-20 card2 p-20">
+            <div>
+                <div class="add-card">Location</div>
+                <div>{{parking_location['location_name']}}</div>
+            </div>
+            <div>
+                <div class="add-card">Address</div>
+                <div>{{parking_location['address']}}</div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+

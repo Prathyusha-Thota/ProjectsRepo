@@ -1,0 +1,86 @@
+{% include 'admin_menu.html' %}
+<form action="add_parking_location_action">
+    <div class="row">
+         <div class="w-20 add-card">
+            <label>Parking Area Name</label>
+            <input type="text" placeholder="Enter Area name" class="input slot-btn" name="parking_area_name" required>
+         </div>
+         <div class="w-20 p-30 add-card ml-30 ">
+            <label >Choose Location</label>
+             <select name="parking_location_id" class="slot-btn" required>
+                 <option value="">Choose Parking Locations</option>
+                 {% for parking_location in parking_locations %}
+                 <option value="{{parking_location['_id']}}">{{parking_location['location_name']}}</option>
+                 {% endfor %}
+             </select>
+        </div>
+        <div class="w-20 p-30 add-card mr-10">
+            <label>No.of slots</label>
+            <input type="number" placeholder="No.of slots" class="input slot-btn" name="number_of_slots" required>
+        </div>
+        <div class="w-20 p-30 add-card ">
+            <label>Price per hour</label>
+            <input type="number" placeholder="Price per hour" class="input slot-btn" name="price_per_hour" required>
+        </div>
+        <div class="w-20 p-40 middle add-card">
+            <input type="submit" class="bt slot-btn nav text-center" value="Add location Slot">
+        </div>
+    </div>
+</form>
+{% for parking_slot in parking_slots: %}
+{% set location = get_location_by_location_id(parking_slot['parking_location_id'])%}
+<div style="margin: 20px auto; padding:30px; border-radius:12px; border: 1px solid black; box-shadow: 0px 0px 10px; display:flex;">
+    <div>
+        <div style="font-weight:bold; font-size:20px;">
+            Parking Area
+        </div>
+        <div>
+            {{parking_slot['parking_area_name']}}
+        </div>
+    </div>
+    <div style="margin-left:120px;">
+        <div style="font-weight:bold; font-size:20px; ">
+            Parking Location
+        </div>
+        <div>
+            {{location['location_name']}}
+        </div>
+    </div>
+    <div style="margin-left:120px;">
+        <div style="font-weight:bold; font-size:20px; ">
+            Date
+        </div>
+        <div>
+            {{parking_slot['datetime']}}
+        </div>
+    </div>
+    <div style="margin-left:120px;">
+        <div style="font-weight:bold; font-size:20px; ">
+            Number of Slots
+        </div>
+        <div>
+            {{parking_slot['number_of_slots']}}
+        </div>
+    </div>
+    <div style="margin-left:120px;">
+        <div style="font-weight:bold; font-size:20px;">
+            Status
+        </div>
+        <div>
+            {{parking_slot['status']}}
+        </div>
+    </div>
+    <div style="margin-left:120px;">
+        <div style="font-weight:bold; font-size:20px;">
+            Address
+        </div>
+        <div>
+            {{location['address']}}
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+
+

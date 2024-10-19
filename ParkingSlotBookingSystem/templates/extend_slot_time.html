@@ -1,0 +1,26 @@
+{% include 'customer_menu.html' %}
+
+<div class="row">
+    <div style="background-color:white; border-radius:10px; box-shadow: 0px 0px 10px; margin-left:600px; margin-top:100px; padding:30px;">
+        <form action="extend_slot_time">
+            <input type="hidden" name="reservation_id" value="{{reservation_id}}">
+            <div>
+                <div style="font-weight:bold; margin-left:20px;">From Date</div>
+                <input type="datetime-local" name="from_date_time" value="{{from_date_time}}" onchange="this.form.submit()" placeholder="Choose To Date" style="border-radius:15px; margin-left:20px;">
+            </div>
+            <div style="margin-top:10px;">
+                <div style="font-weight:bold; margin-left:20px;">To Date</div>
+                <input type="datetime-local" name="to_date_time" value="{{to_date_time}}" onchange="this.form.submit()" placeholder="Choose To Date" style="border-radius:15px; margin-left:20px; ">
+            </div>
+        </form>
+        <form action="extend_slot_time1" style="margin-top:10px;">
+            <input type="hidden" name="reservation_id" value="{{reservation_id}}">
+            <input type="hidden" name="from_date_time" value="{{from_date_time}}">
+            <input type="hidden" name="to_date_time" value="{{to_date_time}}">
+            <div style="padding-bottom:10px;">
+                <input type="submit" value="Extend Time" style="margin-left:20px; font-size:20px; padding: 5px 45px; text-decoration:none; border-radius:15px;">
+            </div>
+        </form>
+    </div>
+
+</div>

@@ -1,0 +1,33 @@
+.text-center {
+    text-align:center;
+}
+.text-center {
+    color: white;
+}
+.row {
+    display:flex;
+    flex-wrap: wrap;
+}
+.space-around {
+    justify-content: space-around;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+.space-center {
+    justify-content: center;
+}
+.gap {
+    gap: 20px
+}
+.card2 {
+    border: 1px solid lightgray;
+    border-radius: 14px;
+}
+.middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

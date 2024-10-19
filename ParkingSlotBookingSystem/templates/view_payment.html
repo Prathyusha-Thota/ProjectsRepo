@@ -1,0 +1,51 @@
+{% if session['role'] == 'admin' %}
+    {% include "admin_menu.html" %}
+{% endif %}
+
+{% if session['role'] == 'customer' %}
+    {% include 'customer_menu.html'%}
+{% endif %}
+<div class="row space-around">
+    <div class="w-30 mt-10">
+        <div class="card p-30">
+            <div class="row">
+                <div class="w-50">
+                    <div style="margin:10px auto;">
+                        <div style="font-weight:bold; font-size:20px;">Card Holder Name</div>
+                        <div>{{payment_details['card_holder_name']}}</div>
+                    </div>
+                    <div style="margin:10px auto;">
+                        <div style="font-weight:bold; font-size:20px;">Card Number</div>
+                        <div>{{payment_details['card_number']}}</div>
+                    </div>
+                    <div style="margin:10px auto;">
+                        <div style="font-weight:bold; font-size:20px;">Card Type</div>
+                        <div>{{payment_details['payment_method']}}</div>
+                    </div>
+                    <div style="margin:10px auto;">
+                        <div style="font-weight:bold; font-size:20px;">Expiry Date</div>
+                        <div>{{payment_details['expiry_date']}}</div>
+                    </div>
+                </div>
+                <div class="w-50" style="margin-left:20px;">
+                    <div style="margin:10px auto;">
+                        <div style="font-weight:bold; font-size:20px;">CVV</div>
+                        <div>{{payment_details['cvv']}}</div>
+                    </div>
+                    <div style="margin:10px auto;">
+                        <div style="font-weight:bold; font-size:20px;">Paid On</div>
+                        <div>{{payment_details['payment_date'].strftime("%d-%m-%Y %I:%M %p")}}</div>
+                    </div>
+                    <div style="margin:10px auto;">
+                        <div style="font-weight:bold; font-size:20px;">Paid Amount</div>
+                        <div>{{payment_details['payable_amount']}}</div>
+                    </div>
+                    <div style="margin:10px auto;">
+                        <div style="font-weight:bold; font-size:20px;">Status</div>
+                        <div>{{payment_details['status']}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

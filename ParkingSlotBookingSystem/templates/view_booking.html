@@ -1,0 +1,188 @@
+{% if session['role'] == 'admin' %}
+    {% include "admin_menu.html" %}
+{% endif %}
+
+{% if session['role'] == 'customer' %}
+    {% include 'customer_menu.html'%}
+{% endif %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" xmlns="http://www.w3.org/1999/html"></script>
+<script>
+function startTimer(duration, i) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        $("#timer"+i).html(minutes + ":" + seconds)
+        if (--timer < 0) {
+            timer = duration;
+        }
+     }, 1000);
+}
+$(document).ready(function(){
+    var fiveMinutes = 60 * 6
+    console.log('hi')
+    let timers = document.getElementsByClassName('timer');
+    for(let i=0; i<timers.length; i++) {
+        console.log(timers[i])
+        let time = $("#timer_text"+i).val()
+        startTimer(time*60, i);
+    }
+});
+
+</script>
+
+<div class="row space-around">
+    {% set count = namespace(value=0) %}
+    {% for reservation in reservations%}
+    {% set second_difference = timer_show(reservation['_id'])%}
+    {% set mail = get_is_parking_time_out(reservation['to_date_time'], reservation['_id']) %}
+    {% set parking_slot = get_parking_slot_by_parking_slot_id(reservation['parking_slot_id']) %}
+    {% set customer = get_customer_by_customer_id(reservation['customer_id']) %}
+    {% set parking_location = get_parking_location_by_parking_location_id(parking_slot['parking_location_id'])%}
+        <div class="w-45 mt-10">
+            <div class="card p-30">
+                <div class="row">
+                    <div class="w-50">
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Slot Number</div>
+                            <div>{{reservation['slot_number']}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Customer</div>
+                            <div>{{customer['first_name']}}{{customer['last_name']}}</div>
+                            <div>({{customer['phone']}})</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Vehicle Title</div>
+                            <div>{{reservation['vehicle_title']}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Vehicle Number</div>
+                            <div>{{reservation['vehicle_number']}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Vehicle Type</div>
+                            <div>{{reservation['vehicle_type']}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Vehicle Model</div>
+                            <div>{{reservation['vehicle_model']}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Booked On</div>
+                            <div>{{reservation['booking_date'].strftime("%d-%m-%Y %I:%M %p")}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Address</div>
+                            <div>{{parking_location['address']}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            {% if session['role'] == 'customer' %}
+                                {% if reservation['status'] == 'Slot Booked'%}
+                                    <form action="update_slot_number">
+                                        <input type="hidden" name="reservation_id" value="{{reservation['_id']}}">
+                                        <select name="slot_number" id="slot_number" style="padding: 3px 60px; border-radius:10px;">
+                                            {% for i in range(1,int(parking_slot['number_of_slots'])+1) %}
+                                                {% set is_reserved = is_slot_reserved(parking_slot['_id'], i, reservation['from_date_time'], reservation['to_date_time'])%}
+                                                {% if not is_reserved %}
+                                                    <option value="{{i}}">{{i}}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <div style="margin-top:20px;">
+                                            <input type="submit" class="bt slot-btn nav text-center" style=" font-size:15px; padding: 7px 20px; text-decoration:none;  text-align: center;"  value="Update Slot Number">
+                                        </div>
+                                    </form>
+                                {% endif %}
+                                {% if reservation['status'] == 'Checked in'%}
+                                    <form action="extend_slot_time">
+                                        <input type="hidden" name="reservation_id" value="{{reservation['_id']}}">
+                                        <input type="submit" value="Extend Slot Time" class="bt slot-btn nav text-center" style=" font-size:15px; padding: 7px 20px; text-decoration:none;  text-align: center;">
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="w-50 ml-40">
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Parking Area</div>
+                            <div>{{parking_slot['parking_area_name']}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Location</div>
+                            <div>{{parking_location['location_name']}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">From Date Time</div>
+                            <div>{{reservation['from_date_time'].strftime("%d-%m-%Y %I:%M %p")}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">To Date Time</div>
+                            <div>{{reservation['to_date_time'].strftime("%d-%m-%Y %I:%M %p")}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Paid Amount</div>
+                            <div>$ {{reservation['payable_amount']}}</div>
+                        </div>
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Status</div>
+                            <div>{{reservation['status']}}</div>
+                        </div>
+                        {% if second_difference!=0 :%}
+                        {% if 'slot_number' in reservation  and reservation['status'] != "Vacated": %}
+                        <div style="margin:10px auto;">
+                            <div style="font-weight:bold; font-size:20px;">Timer</div>
+                            <input type="hidden" id="timer_text{{count.value}}" value="{{second_difference}}">
+                            <b><div class="timer" id="timer{{count.value}}"></div></b>
+                        </div>
+                        {% set count.value = count.value +1 %}
+                        {% endif %}
+                        {% endif %}
+                        {% if session['role'] == 'customer' %}
+                        {% if reservation['status'] == 'Checked in':%}
+                        <div style="margin:10px auto; display:flex; flex-wrap:wrap;">
+                            <a href="/update_status?reservation_id={{reservation['_id']}}&status=Vacated" class="bt slot-btn nav text-center" style=" font-size:15px; padding: 7px 125px; text-decoration:none;  text-align: center;">
+                            Vacate
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% if reservation['status'] == 'Slot Booked'%}
+                        <div style="margin:10px auto; display:flex; flex-wrap:wrap;">
+                            <a href="/update_status?reservation_id={{reservation['_id']}}&status=Cancelled" class="bt slot-btn nav text-center" style=" font-size:15px; padding: 7px 95px; text-decoration:none; margin-left:4px;">
+                            Cancel Booking
+                            </a>
+                        </div>
+                        {% endif%}
+                        {% if reservation['status'] == 'Vacated'%}
+                        <div style="margin-top:10px; margin-bottom:10px;">
+                            <a href="/add_review?reservation_id={{reservation['_id']}}" class="bt slot-btn nav text-center" style=" font-size:15px; padding: 7px 95px; text-decoration:none; text-align: center;">
+                            Review & Rate
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% if reservation['status'] == 'Review Given'%}
+                        <div style="margin-top:10px; margin-bottom:10px;">
+                            <a href="/view_review?reservation_id={{reservation['_id']}}" class="bt slot-btn nav text-center" style=" font-size:15px; padding: 7px 95px; text-decoration:none; text-align: center;">
+                            View Review
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        <div>
+                            <a href="/view_payment?reservation_id={{reservation['_id']}}" class="bt slot-btn nav text-center" style=" font-size:15px; padding: 7px 95px; text-decoration:none; text-align: center;">
+                            View Payment
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+

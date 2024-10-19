@@ -1,0 +1,22 @@
+{% include 'customer_menu.html'%}
+<div>
+    <div class="container mt-20">
+        <div class="container-item w-40">
+            <div class="card p-20" style="background-color: rgb(46, 132, 194, 0.7);">
+                <form action="add_review1" method="post">
+                    <input type="hidden" name="reservation_id" value="{{reservation_id}}">
+                    <div class="card-title text-center">Review & Rating</div>
+                    <div class="mt-15">
+                        <label class="text-center">Review</label>
+                        <input class="card-input" placeholder="Enter Review" name="review" required>
+                    </div>
+                    <div class="mt-15">
+                        <label class="text-center">Rating</label>
+                        <input type="number" class="card-input" placeholder="Given Rating" name="rating" min="1" max="5" required>
+                    </div>
+                    <div class=""><input type="submit" class="card-btn mt-30 w-100" value="Submit"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

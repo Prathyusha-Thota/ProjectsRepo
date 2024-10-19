@@ -1,0 +1,73 @@
+{% include 'links.html' %}
+<div>
+    <div class="container-heading">PARKING SLOT BOOKING SYSTEM</div>
+    <div class="container mt-20">
+        <div class="container-item w-60">
+            <div class="card m-10 p-20" style="background-color: rgb(46, 132, 194, 0.7);">
+                <form action="customer_registration_action" method="post">
+                    <div class="card-title text-center">Customer registration</div>
+                    <div class="row">
+                        <div class="w-45">
+                            <div class="mt-15">
+                                <label class="text-center">First Name</label>
+                                <input type="text" class="card-input" placeholder="Enter First Name" name="first_name" required>
+                            </div>
+                            <div class="mt-15">
+                                <label class="text-center">Last Name</label>
+                                <input type="text" class="card-input" placeholder="Enter Last Name" name="last_name" required>
+                            </div>
+                            <div class="mt-15">
+                                <label class="text-center">Email</label>
+                                <input type="email" class="card-input" placeholder="Enter Email" name="email" required>
+                            </div>
+                            <div class="mt-15">
+                                <label class="text-center">Phone</label>
+                                <input type="number" class="card-input" placeholder="Enter Number" name="phone" required>
+                            </div>
+                            <div class="mt-15">
+                                <label class="text-center">Password</label>
+                                <input type="password" class="card-input" placeholder="Enter password" name="password" required>
+                            </div>
+                            <div class="mt-15">
+                                <label class="text-center">confirm_password</label>
+                                <input type="password" class="card-input" placeholder="Confirm password" name="confirm_password" required>
+                            </div>
+
+                        </div>
+                        <div class="w-45 ml-10">
+                            <div class="mt-15">
+                                <label class="text-center">City</label>
+                                <input type="text" class="card-input" placeholder="Enter City Name" name="city_name" required>
+                            </div>
+                            <div class="mt-15">
+                                <label class="text-center">State</label>
+                                <input type="text" class="card-input" placeholder="Enter State" name="state" required>
+                            </div>
+                            <div class="mt-15">
+                                <label class="text-center">Zipcode</label>
+                                <input type="text" class="card-input" placeholder="Enter Name" name="zipcode" required>
+                            </div>
+                            <div class="mt-15">
+                                <label class="text-center">DOB</label>
+                                <input  type="date" class="card-input" placeholder="Enter Name" name="DOB" required>
+                            </div>
+                            <div class="mt-15">
+                                <label class="text-center">Address</label>
+                                <input class="card-input" placeholder="Enter Address" name="address" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class=""><input type="submit" class="card-btn mt-30 w-100" value="Sign Up"></div>
+                </form>
+            </div>
+        </div>
+        <div class="container-item w-20">
+            <div class="container-btn"><a href="/" class="btn">Home</a></div>
+            <div class="container-btn"><a href="admin_login" class="btn">Admin</a></div>
+            <div class="container-btn blink"><a href="customer_login" class="btn">Customer</a></div>
+        </div>
+    </div>
+    </div>
+
+</div>

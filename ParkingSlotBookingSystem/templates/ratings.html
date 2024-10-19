@@ -1,0 +1,33 @@
+{% include 'customer_menu.html' %}
+
+<div>
+    <div class="container mt-20">
+        <div class="container-item w-40">
+            <div class="card p-20" style="background-color: rgb(46, 132, 194, 0.7);">
+                <div class="text-center h6">Review's and Rating's</div>
+                        {% for review in reviewList%}
+                        {% set customer=get_customer_by_id2(review['reservation_id'])%}
+                            <div class="row">
+                                <div class="mt-15">
+                                    <div class="text-muted mt-2" style="font-size:80%">Rating : </div>
+                                    <div class="h6">{{review['rating']}}</div>
+                                </div>
+                                 <div class="mt-15" style="margin-left:20px;">
+                                    <div class="text-muted mt-2" style="font-size:80%">Review on : </div>
+                                    <div class="h6">{{review['date']}}</div>
+                                </div>
+                            </div>
+                            <div class="mt-15">
+                                <div class="text-muted mt-2" style="font-size:80%">Date : </div>
+                                <div class="h6">{{review['review']}}</div>
+                            </div>
+                           <div class="mt-15" style="font-size:80%">Review by: </div>
+                            <div class="h6">{{customer['name']}}</div>
+                        <hr>
+                        {% endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
